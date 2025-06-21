@@ -26,17 +26,26 @@ $(document).ready(function () {
     })
     .done(function (response) {
       console.log(response);
-
-      $("#result").html(
-        'Результат:<br><br>' 
-        + 'Город: ' + response.location.value + '<br><br>'
-        + 'Общая информация:<br>' + JSON.stringify(response.location.data, null, "<br>")
-      );  
+      //----------
+      if(response.location === null) {
+        $("#result").html(
+          'Результат:<br><br>' 
+          + 'API Dafata не содержит информацию об IP-адресе: ' + formData.query
+        );
+      }
+      else {
+        $("#result").html(
+          'Результат:<br><br>' 
+          + response.location.value + '<br><br>'
+          + 'Дополнительная информация:<br>' + JSON.stringify(response.location.data, null, "<br>")
+        ); 
+      }  
     })
     .fail(function(xhr) {
       console.log(xhr.responseJSON);
       $("#result").html(
-        'Error:<br><br>'  + xhr.status + ': ' + xhr.responseJSON.message
+        'Результат:<br><br>' 
+        + 'Error:<br><br>'  + xhr.status + ': ' + xhr.responseJSON.message
       )
     });
 
